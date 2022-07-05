@@ -1,0 +1,43 @@
+<cdk-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <!-- This is the tree node template for leaf nodes -->
+  <cdk-nested-tree-node *cdkTreeNodeDef="let node" class="example-tree-node">
+    <!-- use a disabled button to provide padding for tree leaf -->
+    <!-- <button mat-icon-button disabled></button> -->
+    <ng-container *ngIf="node.inputType === 'radio'">
+      <mat-radio-button
+        class="btn-radio"
+        [checked]="checklistSelection.isSelected(node)"
+        (change)="onSelectionChild(node);"
+        >{{node.name}}
+      </mat-radio-button>
+    </ng-container>
+    <ng-container *ngIf="node.inputType === 'checkbox'">
+      <mat-checkbox
+        class="btn-radio"
+        [checked]="checklistSelection.isSelected(node)"
+        (change)="onSelectionChild(node);"
+      >
+        {{node.name}}
+      </mat-checkbox>
+    </ng-container>
+  </cdk-nested-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <cdk-nested-tree-node
+    *cdkTreeNodeDef="let node; when: hasChild"
+    class="example-tree-node"
+  >
+    <mat-checkbox
+      class="btn-radio"
+      [checked]="descendantsAllSelected(node)"
+      [indeterminate]="descendantsPartiallySelected(node)"
+      (change)="todoItemSelectionToggle(node)"
+    >
+      {{node.name}}
+    </mat-checkbox>
+    <div>
+      <ng-container cdkTreeNodeOutlet></ng-container>
+    </div>
+  </cdk-nested-tree-node>
+</cdk-tree>
+
+{{ payloadArray | json }}
